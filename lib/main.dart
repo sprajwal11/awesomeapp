@@ -1,7 +1,10 @@
 //import 'dart:html';
 
+import 'package:awesomeapp/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+
+import 'bg_image.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -11,9 +14,21 @@ void main() {
   ));
 }
 
-class HomePage extends StatelessWidget {
-  //const HomePage({super.key});
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
+  TextEditingController _nameController = TextEditingController();
+  var myText = "My Text";
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  //const HomePage({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,59 +36,46 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Awesome App"),
       ),
-      body: Center(
-          child: Padding(
+      body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Card(
-          child: Column(
-            children: <Widget>[
-              Image.asset(
-                "assets/bg.jpg",
-                fit: BoxFit.cover,
-                // width: 100,
-                // height: 100,
-              )
-            ],
+        child: SingleChildScrollView(
+          child: Card(
+            child: Column(
+              children: <Widget>[
+                BgImage(),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  myText,
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: TextField(
+                    controller: _nameController,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "Enter text here",
+                        labelText: "Name"),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
-      )),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            // DrawerHeader(
-            //   child: Text(
-            //     "Hi! I am Drawer",
-            //     style: TextStyle(color: Colors.white),
-            //   ),
-            //   decoration: BoxDecoration(color: Colors.purple),
-            // ),
-            UserAccountsDrawerHeader(
-                accountName: Text("abc pqr"),
-                accountEmail: Text("abc@xyz.com"),
-                currentAccountPicture: CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      "https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA"),
-                )),
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text("Account"),
-              subtitle: Text("Personal"),
-              trailing: Icon(Icons.edit),
-            ),
-            ListTile(
-              leading: Icon(Icons.mail_lock),
-              title: Text("Email"),
-              subtitle: Text("abc@xyz.com"),
-              trailing: Icon(Icons.send),
-            ),
-          ],
-        ),
       ),
+      drawer: MyDrawer(),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.edit),
+        onPressed: () {
+          myText = _nameController.text;
+          setState(() {});
+        },
+        child: Icon(Icons.forward),
         //mini: true,
       ),
     );
